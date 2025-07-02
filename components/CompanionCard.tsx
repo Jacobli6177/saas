@@ -13,7 +13,7 @@ interface CompanionCardsProp {
 
 const CompanionCard = ({ id, name, topic, subject, duration, color }: CompanionCardsProp) => {
   return (
-    <article className='flex flex-col rounded-4xl border border-black px-4 py-4 gap-5 w-full min-lg:max-w-[410px] justify-between' style={{ backgroundColor: color }}>
+    <article className='companion-card justify-between' style={{ backgroundColor: color }}>
       <div className='flex justify-between items-center'>
         <div className=' bg-black text-white rounded-4xl text-sm px-2 py-1 capitalize'>{subject}</div>
         <button className='companion-bookmark'>
