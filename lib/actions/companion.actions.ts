@@ -1,22 +1,32 @@
 'use server';
 
-import {auth} from "@clerk/nextjs/server";
-import {createSupabaseClient} from "@/lib/supabase";
-// import { revalidatePath } from "next/cache";
+import { auth } from "@clerk/nextjs/server";
+import { createSupabaseClient } from "@/lib/supabase";
 
 export const createCompanion = async (formData: CreateCompanion) => {
-    const { userId: author } = await auth();
-    const supabase = createSupabaseClient();
+  const { userId: author } = await auth();
 
-    const { data, error } = await supabase
-        .from('companions')
-        .insert({...formData, author })
-        .select();
+  if (!author) throw new Error("User is not authenticated");
 
-    if(error || !data) throw new Error(error?.message || 'Failed to create a companion');
+  const supabase = createSupabaseClient();
+  const payload = { ...formData, author };
 
-    return data[0];
-}
+  console.log("Insert Payload:", payload);
+
+  const { data, error } = await supabase
+    .from('Companion')
+    .insert(payload)
+    .select();
+
+  if (error || !data) {
+    console.error("Supabase Insert Error:", JSON.stringify(error, null, 2));
+    throw new Error(error?.message || "Failed to create a companion");
+  }
+
+  return data[0];
+};
+
+
 
 // export const getAllCompanions = async ({ limit = 10, page = 1, subject, topic }: GetAllCompanions) => {
 //     const supabase = createSupabaseClient();
