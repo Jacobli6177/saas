@@ -40,6 +40,7 @@ const CompanionComponent = ({ companionId, subject, topic, name, userName, userI
             setCallStatus(CallStatus.FINISHED);
             addToSessionHistory(companionId)
         }
+        //testing 
 
         const onMessage = (message: Message) => {
             if(message.type === 'transcript' && message.transcriptType === 'final') {
